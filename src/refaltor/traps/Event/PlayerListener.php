@@ -28,7 +28,7 @@ class PlayerListener implements Listener
         foreach ($config->get('traps') as $blockID => $keys) {
             $damage = 0;
             if (isset($keys['damage'])) $damage = $keys['damage'];
-            $block = $player->getLevel()->getBlockAt($player->getX(), $player->getY() - 1, $player->getZ());
+            $block = $player->getLevel()->getBlock(new Vector3($player->getX(), $player->getY() - 1, $player->getZ()));
             if (($blockID) === ($block->getId() . ':' . $block->getDamage())) {
                 if ($damage > 0) {
                     if ((intval($player->getHealth()) - $damage) <= 0) {
@@ -40,7 +40,7 @@ class PlayerListener implements Listener
                 }
                 if (isset($keys['message'])) {
                     if (isset($keys['message']['enable']) && $keys['message']['enable']) {
-                        $msg = str_replace('{player}', $player->getName(), $keys['content']);
+                        $msg = str_replace('{player}', $player->getName(), $keys['message']['content']);
                         if (isset($keys['message']['type'])) {
                             switch ($keys['message']['type']) {
                                 case 'popup':
@@ -63,6 +63,7 @@ class PlayerListener implements Listener
                     }
                 }
                 $block->getLevel()->setBlock(new Vector3($block->getX(), $block->getY() + 1, $block->getZ()), Block::get(Block::WEB));
+                $block->getLevel()->setBlock(new Vector3($block->getX(), $block->getY() - 1, $block->getZ()), Block::get(Block::AIR));
                 $block->getLevel()->broadcastLevelEvent($block, LevelEventPacket::EVENT_SOUND_TOTEM);
                 $player->broadcastEntityEvent(ActorEventPacket::CONSUME_TOTEM);
                 if (isset($keys['effects'])) {
