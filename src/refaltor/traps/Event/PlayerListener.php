@@ -14,7 +14,7 @@ use pocketmine\plugin\Plugin;
 
 class PlayerListener implements Listener
 {
-    public Plugin $plugin;
+    public $plugin;
 
     public function __construct(Plugin $plugin)
     {
