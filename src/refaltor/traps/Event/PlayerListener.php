@@ -28,7 +28,7 @@ class PlayerListener implements Listener
         foreach ($config->get('traps') as $blockID => $keys) {
             $damage = 0;
             if (isset($keys['damage'])) $damage = $keys['damage'];
-            $block = $player->getLevel()->getBlock(new Vector3($player->getX(), $player->getY() - 1, $player->getZ()));
+            $block = $player->getLevel()->getBlock(new Vector3(intval($player->getX()), intval($player->getY()) - 1, intval($player->getZ())));
             if (($blockID) === ($block->getId() . ':' . $block->getDamage())) {
                 if ($damage > 0) {
                     if ((intval($player->getHealth()) - $damage) <= 0) {
